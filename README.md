@@ -1,0 +1,1 @@
+# Capitura-ListaFotos
