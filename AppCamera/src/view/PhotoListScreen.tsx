@@ -1,13 +1,9 @@
-// src/view/PhotoListScreen.tsx
-
 import React from 'react';
 import { FlatList, Text, View, StyleSheet } from 'react-native';
 import { Image } from 'expo-image';
-// Importa o Custom Hook (ViewModel)
 import { useCameraViewModel } from '../viewmodel/useCameraViewModel';
 
 const PhotoListScreen = () => {
-  // Consome APENAS os dados da ViewModel (photos)
   const { photos } = useCameraViewModel(); 
   
   const renderItem = ({ item }) => (
@@ -42,7 +38,6 @@ const PhotoListScreen = () => {
   );
 };
 
-// Estilos específicos da tela de Lista
 const styles = StyleSheet.create({
     emptyContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
     message: { fontSize: 16, color: '#666' },

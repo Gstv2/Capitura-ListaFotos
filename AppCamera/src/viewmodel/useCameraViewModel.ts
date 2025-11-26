@@ -14,31 +14,24 @@ export function useCameraViewModel(): CameraState & CameraActions {
 
     useEffect(() => {
         (async () => {
-            // Agora, o useEffect SÓ solicita a permissão de localização (que não tem um hook reativo nativo no mesmo nível)
             const { status } = await Location.requestForegroundPermissionsAsync();
             setLocationGranted(status === 'granted');
             console.log("Permissão localização:", status === 'granted');
         })();
     }, []);
 
-    // Ação para pedir a permissão de localização (a View chama isso via botão)
     async function requestLocationPermission() {
         const { status } = await Location.requestForegroundPermissionsAsync();
         setLocationGranted(status === 'granted');
     }
-
-    // --- Lógica da Câmera ---
-
     function toggleCameraFacing() {
         setFacing(current => (current === 'back' ? 'front' : 'back'));
     }
 
-    // Ação principal de captura e localização
     async function capturePhoto(navigation: CameraScreenNavigationProp) {
         setLoading(true);
 
         try {
-            // Validações antes de capturar
             if (!cameraRef.current) {
                 console.error("Erro: câmera não inicializada");
                 return;
@@ -59,7 +52,6 @@ export function useCameraViewModel(): CameraState & CameraActions {
             let latitude: number | null = null;
             let longitude: number | null = null;
 
-            // 2. Obtém localização
             try {
                 if (locationGranted) {
                     const loc = await Location.getCurrentPositionAsync({
@@ -72,7 +64,6 @@ export function useCameraViewModel(): CameraState & CameraActions {
                 console.warn("Falha ao obter localização:", locError);
             }
 
-            // 3. Cria novo objeto MyPhoto
             const newPhoto: MyPhoto = {
                 id: uuid.v4().toString(),
                 uri: result.uri,
@@ -83,7 +74,6 @@ export function useCameraViewModel(): CameraState & CameraActions {
 
             setPhotos(prev => [newPhoto, ...prev]);
 
-            // 4. Navega para a lista
             navigation.navigate('PhotoList');
 
         } catch (e) {
@@ -98,7 +88,6 @@ export function useCameraViewModel(): CameraState & CameraActions {
         }
     }
 
-    // Retorna Estado e Ações
     return {
         facing,
         permission,

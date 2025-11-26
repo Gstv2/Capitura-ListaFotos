@@ -1,15 +1,12 @@
-// src/view/CameraScreen.tsx
-
 import React from 'react';
 import { Button, Text, TouchableOpacity, View, StyleSheet } from 'react-native';
 import { CameraView } from 'expo-camera';
 import { useNavigation } from '@react-navigation/native';
-// Importa o Custom Hook (ViewModel) e tipos
+
 import { useCameraViewModel } from '../viewmodel/useCameraViewModel';
 import { CameraScreenNavigationProp } from '../model/entities/Myphotos';
 
 const CameraScreen = () => {
-  // Consome a ViewModel
   const { 
     facing, 
     permission, 
@@ -23,8 +20,6 @@ const CameraScreen = () => {
   } = useCameraViewModel();
   
   const navigation = useNavigation<CameraScreenNavigationProp>();
-  
-  // Implementação dos Early Returns (Lógica de UI baseada em estado da ViewModel)
 
   if (!permission) return <View />;
   if (!permission.granted) {
@@ -45,7 +40,6 @@ const CameraScreen = () => {
     );
   }
 
-  // Exibe Loading durante a captura
   if (loading) {
      return (
         <View style={styles.container}>
@@ -54,7 +48,6 @@ const CameraScreen = () => {
      );
   }
   
-  // UI Principal
   return (
     <View style={styles.container}>
       <CameraView 
@@ -74,8 +67,6 @@ const CameraScreen = () => {
     </View>
   );
 };
-
-// Estilos específicos da tela de Câmera
 const styles = StyleSheet.create({
     container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
     message: { textAlign: 'center', paddingBottom: 10 },
